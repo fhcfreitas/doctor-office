@@ -1,6 +1,7 @@
 class Admin::UsersController < ApplicationController
   before_action :require_authentication
   before_action :require_admin!
+  layout "admin"
 
   def show
     @user = Current.user

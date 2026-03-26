@@ -1,6 +1,7 @@
 class Admin::DashboardController < ApplicationController
   before_action :require_authentication
   before_action :require_admin!
+  layout "admin"
 
   def index
     @session = Current.session

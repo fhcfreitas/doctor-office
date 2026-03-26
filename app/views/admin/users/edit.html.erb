@@ -5,9 +5,9 @@
 
     <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
       <div class="inline">
-        <%= form.submit "Update", class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-green-600 hover:bg-green-700 text-white inline-block font-medium cursor-pointer" %>
+        <%= form.submit "Update", class: "text-sm font-medium border border-green-200 text-green-600 rounded-lg py-2 px-4 hover:bg-green-100 transition-colors cursor-pointer" %>
       </div>
-      <%= link_to "Back to Profile", admin_user_path, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-600 hover:bg-gray-700 text-white inline-block font-medium cursor-pointer" %>
+      <%= link_to "Back to Profile", admin_user_path, class: "text-sm font-medium border border-slate-200 text-slate-600 rounded-lg py-2 px-4 hover:bg-gray-100 transition-colors" %>
     </div>
   <% end %>
 </div>

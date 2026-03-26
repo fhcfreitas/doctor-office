@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Admin — Doctor Office" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-slate-50 text-slate-800 min-h-screen">
+    <nav class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between">
+      <span class="font-medium text-slate-700">Painel admin</span>
+      <div class="flex items-center gap-6 text-sm text-slate-600">
+        <%= link_to "Dashboard", admin_root_path, class: "hover:text-slate-900" %>
+        <%= link_to "Posts", '#', class: "hover:text-slate-900" %>
+        <%= link_to "Consultórios", '#', class: "hover:text-slate-900" %>
+        <%= link_to "Agendamentos", '#', class: "hover:text-slate-900" %>
+      </div>
+    </nav>
+
+    <div class="w-full px-8 pt-4">
+      <% flash.each do |type, message| %>
+        <% css = case type.to_sym
+          when :notice  then "bg-blue-50 text-blue-800 border-blue-200"
+          when :alert   then "bg-red-50 text-red-800 border-red-200"
+          when :success then "bg-green-50 text-green-800 border-green-200"
+          else               "bg-slate-50 text-slate-800 border-slate-200"
+          end
+        %>
+        <div class="mb-2 rounded-lg border px-4 py-3 text-sm <%= css %>" role="alert">
+          <%= message %>
+        </div>
+      <% end %>
+    </div>
+
+    <main class="w-full px-8 py-8">
+      <%= yield %>
+    </main>
+
+  </body>
+</html>
