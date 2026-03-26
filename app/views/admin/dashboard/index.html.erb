@@ -1,4 +1,10 @@
 <div>
-  <h1 class="font-bold text-4xl">Admin::Dashboard#index</h1>
-  <p>Find me in app/views/admin/dashboard/index.html.erb</p>
+  <h1 class="font-bold text-4xl">Admin::Dashboard#Index</h1>
+  <p>Welcome to the admin dashboard! Here you can manage your profile and access administrative features.</p>
+
+  <div class="mt-4 flex gap-4">
+    <%= link_to "Visualizar Perfil",
+        admin_user_path,
+        class: "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
 </div>

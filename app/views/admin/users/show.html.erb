@@ -1,0 +1,39 @@
+<div class="mx-auto md:w-2/3 w-full">
+	<h1 class="font-bold text-4xl mb-4">Profile</h1>
+
+	<div class="bg-white shadow rounded-lg p-6">
+		<div class="flex items-center gap-6">
+			<div class="flex-shrink-0">
+				<div class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center text-xl font-bold text-gray-600">
+					<%= @user.name&.split&.map(&:first)&.first(2)&.join || "U" %>
+				</div>
+			</div>
+
+			<div class="flex-1">
+				<h2 class="text-2xl font-semibold"><%= @user.name %></h2>
+				<p class="text-sm text-gray-600"><%= @user.email_address %></p>
+			</div>
+
+			<div class="text-right">
+				<%= link_to "Edit", edit_admin_user_path, class: "text-blue-600 hover:underline" %>
+			</div>
+		</div>
+
+		<div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+			<div>
+				<span class="font-medium">Specialty: </span>
+				<%= @user.specialty.presence || "—" %>
+			</div>
+
+			<div>
+				<span class="font-medium">Location: </span>
+				<%= [@user.city, @user.state].compact.reject(&:blank?).join(", ") .presence || "—" %>
+			</div>
+
+			<div class="md:col-span-2">
+				<span class="font-medium">Bio: </span>
+				<div class="mt-2 text-gray-800"><%= simple_format(@user.bio.presence || "—") %></div>
+			</div>
+		</div>
+	</div>
+</div>

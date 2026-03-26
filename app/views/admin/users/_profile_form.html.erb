@@ -1,0 +1,58 @@
+<% if @user&.errors&.any? %>
+  <div class="mb-4 rounded-md p-3 bg-red-100 text-red-800" role="alert">
+    <h2 class="font-bold text-lg mb-2">Please fix the following errors:</h2>
+    <ul class="list-disc list-inside">
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="my-5">
+  <%= form.label :name, "Your First and Last Name" %>
+  <%= form.text_field :name, autofocus: true, placeholder: "(e.g.: Dr. Joao Silva)", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+</div>
+
+<div class="my-5">
+  <%= form.label :bio, "Your Bio" %>
+  <%= form.text_area :bio, placeholder: "(e.g.: I am a doctor with 10 years of experience...)", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+</div>
+
+<div class="my-5">
+  <%= form.label :specialty, "Your Specialty" %>
+  <%= form.text_field :specialty, placeholder: "(e.g.: Cardiologist)", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+</div>
+
+<div class="my-5 w-full flex gap-4">
+  <div class="w-1/2">
+    <%= form.label :city, "City" %>
+    <%= form.text_field :city,
+      placeholder: "(e.g.: São Paulo)",
+      class: "shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="w-1/2">
+    <%= form.label :state, "State" %>
+    <%= form.text_field :state,
+      placeholder: "(e.g.: SP)",
+      class: "shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  </div>
+</div>
+
+<div class="my-5">
+  <%= form.label :email_address, "Your Email" %>
+  <%= form.email_field :email_address, placeholder: "(e.g.: joaosilva94@test.com)", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+</div>
+
+<div class="my-5 w-full flex gap-4">
+  <div class="w-1/2">
+    <%= form.label :password, "New Password" %>
+    <%= form.password_field :password, autocomplete: "new-password", placeholder: "Leave blank to keep current password", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="w-1/2">
+    <%= form.label :password_confirmation, "Confirm New Password" %>
+    <%= form.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Leave blank to keep current password", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  </div>
+</div>

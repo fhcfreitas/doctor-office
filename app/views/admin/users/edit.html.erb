@@ -1,0 +1,13 @@
+<div class="mx-auto md:w-2/3 w-full" data-controller="autocomplete-cep">
+  <h1 class="font-bold text-4xl mb-2">Edit Profile Info</h1>
+  <%= form_with model: @user, url: admin_user_path(@user), method: :patch, local: true, html: { class: "contents", autocomplete: "off" } do |form| %>
+    <%= render 'profile_form', form: form %>
+
+    <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+      <div class="inline">
+        <%= form.submit "Update", class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-green-600 hover:bg-green-700 text-white inline-block font-medium cursor-pointer" %>
+      </div>
+      <%= link_to "Back to Profile", admin_user_path, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-600 hover:bg-gray-700 text-white inline-block font-medium cursor-pointer" %>
+    </div>
+  <% end %>
+</div>
