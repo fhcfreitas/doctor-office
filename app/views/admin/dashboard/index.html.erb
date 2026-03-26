@@ -6,5 +6,8 @@
     <%= link_to "Visualizar Perfil",
         admin_user_path,
         class: "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" %>
-  </div>
+
+    <%= button_to "Sair", session_path,
+        method: :delete,
+        class: "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>  </div>
 </div>

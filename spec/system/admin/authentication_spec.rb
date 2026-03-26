@@ -1,0 +1,36 @@
+# spec/system/admin/authentication_spec.rb
+require "rails_helper"
+
+RSpec.describe "Admin authentication", type: :system do
+  let!(:admin) { User.create!(email_address: "admin@test.com", password: "password123!", admin: true) }
+
+  it "redirects unauthenticated users to the login page" do
+    visit admin_root_path
+    expect(page).to have_current_path(new_session_path)
+  end
+
+  it "permits login with valid credentials" do
+    visit new_session_path
+    fill_in "E-mail", with: admin.email_address
+    fill_in "Senha", with: "password123!"
+    click_button "Entrar"
+    expect(page).to have_current_path(admin_root_path)
+  end
+
+  it "rejects invalid credentials" do
+    visit new_session_path
+    fill_in "E-mail", with: admin.email_address
+    fill_in "Senha", with: "senha_errada"
+    click_button "Entrar"
+    expect(page).to have_current_path(new_session_path)
+  end
+
+  it "permits logout" do
+    visit new_session_path
+    fill_in "E-mail", with: admin.email_address
+    fill_in "Senha", with: "password123!"
+    click_button "Entrar"
+    click_button "Sair"
+    expect(page).to have_current_path(new_session_path)
+  end
+end
