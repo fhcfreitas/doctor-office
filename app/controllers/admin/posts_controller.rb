@@ -37,7 +37,9 @@ class Admin::PostsController < ApplicationController
   end
 
   def update
-    if @post.update(post_params)
+    @post.cover_image.purge if params.dig(:post, :remove_cover_image) == "1"
+
+    if @post.update(post_params.except(:remove_cover_image))
       redirect_to admin_post_path(@post), notice: "Post atualizado."
     else
       render :edit, status: :unprocessable_entity
@@ -61,6 +63,6 @@ class Admin::PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :subtitle, :content, :draft, :newsletter_flag)
+    params.require(:post).permit(:title, :subtitle, :content, :draft, :newsletter_flag, :cover_image, :remove_cover_image)
   end
 end

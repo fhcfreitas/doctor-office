@@ -47,10 +47,10 @@
 
   <%# Imagem de capa %>
   <% if @post.cover_image.attached? %>
-    <div class="mb-6 rounded-xl overflow-hidden border border-slate-200">
-      <%= image_tag @post.cover_image.variant(resize_to_limit: [800, 400]),
+    <div class="mb-6 rounded-xl overflow-hidden border border-slate-200 flex justify-center">
+      <%= image_tag @post.cover_image.variant(resize_to_limit: [400, 200]),
           alt: @post.title,
-          class: "w-full object-cover" %>
+          class: "w-48 object-cover" %>
     </div>
   <% end %>
 
