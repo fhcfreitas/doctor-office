@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.create!(
+admin = User.create!(
   email_address: "admin@example.com",
   password: "admin",
   admin: true,
@@ -28,3 +28,26 @@ User.create!(
   name: "Non-Admin User",
   bio: "This is a non-admin user.",
 )
+
+20.times do |i|
+  Post.create!(
+    user: admin,
+    title: "Post #{i + 1}: Dicas de Saúde e Bem-estar",
+    subtitle: "Aprenda algo importante sobre sua saúde ##{i + 1}",
+    content: <<~TEXT,
+      Este é o conteúdo do post número #{i + 1}.
+
+      Aqui você pode escrever sobre diversos temas como:
+      - Prevenção de doenças
+      - Alimentação saudável
+      - Importância de check-ups regulares
+      - Qualidade de vida
+
+      Manter hábitos saudáveis é essencial para uma vida longa e equilibrada.
+    TEXT
+    draft: [ true, false ].sample,
+    newsletter_flag: false,
+    newsletter_sent: false,
+    published_at: rand(1..30).days.ago
+  )
+end

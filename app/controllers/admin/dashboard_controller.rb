@@ -5,5 +5,8 @@ class Admin::DashboardController < ApplicationController
 
   def index
     @session = Current.session
+    @posts_count = Post.count
+    @published_posts_count = Post.where(draft: false).count
+    @draft_posts_count = Post.where(draft: true).count
   end
 end

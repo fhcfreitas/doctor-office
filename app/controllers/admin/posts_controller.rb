@@ -1,0 +1,66 @@
+class Admin::PostsController < ApplicationController
+  before_action :require_authentication
+  before_action :require_admin!
+  before_action :set_post, only: %i[ show edit update destroy publish ]
+  layout "admin"
+
+  def index
+    @filter = params[:filter]
+
+    @posts = case @filter
+    when "published" then Post.published
+    when "draft" then Post.drafted
+    when "newsletter" then Post.where(newsletter_flag: true)
+    else Post.all
+    end.order(published_at: :desc).includes(:user)
+  end
+
+  def new
+    @post = Post.new
+  end
+
+  def create
+    @post = Post.new(post_params)
+    @post.user = Current.user
+
+    if @post.save
+      redirect_to admin_post_path(@post), success: "Post Criado."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def show
+  end
+
+  def edit
+  end
+
+  def update
+    if @post.update(post_params)
+      redirect_to admin_post_path(@post), notice: "Post atualizado."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @post.destroy
+    redirect_to admin_posts_path, notice: "Post deletado."
+  end
+
+  def publish
+    @post.publish!
+    redirect_to admin_post_path(@post), notice: "Post publicado."
+  end
+
+  private
+
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
+  def post_params
+    params.require(:post).permit(:title, :subtitle, :content, :draft, :newsletter_flag)
+  end
+end

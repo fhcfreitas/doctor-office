@@ -1,0 +1,117 @@
+<div class="max-w-5xl mx-auto">
+  <div class="mb-6 flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-medium text-slate-800">Posts</h1>
+    </div>
+    <%= link_to "+ Novo post", new_admin_post_path,
+        class: "bg-slate-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" %>
+  </div>
+
+  <%# Filtros %>
+  <div class="flex items-center gap-2 mb-6">
+    <%= link_to "Todos", admin_posts_path,
+        class: "px-3 py-1.5 rounded-lg text-sm #{params[:filter].blank? ? 'bg-slate-800 text-white' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}" %>
+    <%= link_to "Publicados", admin_posts_path(filter: "published"),
+        class: "px-3 py-1.5 rounded-lg text-sm #{params[:filter] == 'published' ? 'bg-slate-800 text-white' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}" %>
+    <%= link_to "Rascunhos", admin_posts_path(filter: "draft"),
+        class: "px-3 py-1.5 rounded-lg text-sm #{params[:filter] == 'draft' ? 'bg-slate-800 text-white' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}" %>
+    <%= link_to "Newsletter", admin_posts_path(filter: "newsletter"),
+        class: "px-3 py-1.5 rounded-lg text-sm #{params[:filter] == 'newsletter' ? 'bg-slate-800 text-white' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}" %>
+  </div>
+
+  <%# Lista %>
+  <% if @posts.any? %>
+    <div class="bg-white rounded-2xl border border-slate-200 divide-y divide-slate-100">
+      <% @posts.each do |post| %>
+        <div class="flex items-start gap-4 p-4 hover:bg-slate-50 transition-colors">
+
+          <%# Thumbnail %>
+          <div class="shrink-0 w-20 h-14 rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
+            <% if post.cover_image.attached? %>
+              <%= image_tag post.cover_image.variant(resize_to_fill: [80, 56]),
+                  alt: post.title,
+                  class: "w-full h-full object-cover" %>
+            <% else %>
+              <div class="w-full h-full flex items-center justify-center text-slate-300 text-xs">
+                sem imagem
+              </div>
+            <% end %>
+          </div>
+
+          <%# Conteúdo %>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-4">
+              <div class="min-w-0">
+                <h2 class="text-sm font-medium text-slate-800 truncate">
+                  <%= link_to post.title, admin_post_path(post),
+                      class: "hover:underline" %>
+                </h2>
+                <% if post.subtitle.present? %>
+                  <p class="text-xs text-slate-400 mt-0.5 truncate"><%= post.subtitle %></p>
+                <% end %>
+              </div>
+
+              <div class="flex items-center gap-2 shrink-0">
+                <% if post.draft? %>
+                  <span class="px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-200">
+                    Rascunho
+                  </span>
+                <% else %>
+                  <span class="px-2 py-0.5 rounded-full text-xs bg-green-50 text-green-700 border border-green-200">
+                    Publicado
+                  </span>
+                <% end %>
+
+                <% if post.newsletter_flag? %>
+                  <% if post.newsletter_sent? %>
+                    <span class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-400 border border-slate-200">
+                      Newsletter ✓
+                    </span>
+                  <% else %>
+                    <span class="px-2 py-0.5 rounded-full text-xs bg-blue-50 text-blue-600 border border-blue-200">
+                      Newsletter
+                    </span>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-2">
+              <p class="text-xs text-slate-400">
+                <% if post.published_at.present? %>
+                  Publicado em <%= post.published_at.strftime("%d/%m/%Y") %>
+                <% else %>
+                  Criado em <%= post.created_at.strftime("%d/%m/%Y") %>
+                <% end %>
+              </p>
+
+              <div class="flex items-center gap-3">
+                <%= link_to "Editar", edit_admin_post_path(post),
+                    class: "text-xs text-slate-500 hover:text-slate-800" %>
+
+                <% if post.draft? %>
+                  <%= button_to "Publicar", publish_admin_post_path(post), method: :patch,
+                      class: "text-xs text-green-600 hover:text-green-800 bg-transparent border-0 cursor-pointer p-0" %>
+                <% end %>
+
+                <%= button_to "Excluir", admin_post_path(post), method: :delete,
+                  data: { turbo_confirm: "Excluir #{post.title}?" },
+                  class: "text-xs text-red-400 hover:text-red-600 bg-transparent border-0 cursor-pointer p-0" %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-white rounded-2xl border border-slate-200 p-16 text-center">
+      <p class="text-slate-400 text-sm mb-4">
+        <%= empty_posts_message(@filter) %>
+      </p>
+      <%= link_to "Criar primeiro post", new_admin_post_path,
+          class: "text-sm bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" %>
+    </div>
+  <% end %>
+
+</div>
