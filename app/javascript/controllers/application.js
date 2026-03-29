@@ -4,6 +4,17 @@ const application = Application.start()
 
 // Configure Stimulus development experience
 application.debug = false
-window.Stimulus   = application
+window.Stimulus = application
 
 export { application }
+
+document.addEventListener("turbo:load", () => {
+  const button = document.getElementById("menu-button")
+  const menu = document.getElementById("mobile-menu")
+
+  if (button && menu) {
+    button.addEventListener("click", () => {
+      menu.classList.toggle("hidden")
+    })
+  }
+})

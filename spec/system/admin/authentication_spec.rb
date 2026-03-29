@@ -30,7 +30,8 @@ RSpec.describe "Admin authentication", type: :system do
     fill_in "E-mail", with: admin.email_address
     fill_in "Senha", with: "password123!"
     click_button "Entrar"
-    click_button "Sair"
+    link = find_link("Sair", href: session_path, visible: :all, match: :first)
+    page.execute_script("arguments[0].click()", link)
     expect(page).to have_current_path(new_session_path)
   end
 end
