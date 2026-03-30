@@ -12,7 +12,7 @@ class Admin::PostsController < ApplicationController
     when "draft" then Post.drafted
     when "newsletter" then Post.where(newsletter_flag: true)
     else Post.all
-    end.order(published_at: :desc).includes(:user)
+    end.order(published_at: :desc).includes(:user).page(params[:page]).per(10)
   end
 
   def new
