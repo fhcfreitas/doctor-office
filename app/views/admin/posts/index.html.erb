@@ -40,7 +40,7 @@
 
           <%# Conteúdo %>
           <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
               <div class="min-w-0">
                 <h2 class="text-sm font-medium text-slate-800 truncate">
                   <%= link_to post.title, admin_post_path(post),
@@ -51,7 +51,7 @@
                 <% end %>
               </div>
 
-              <div class="flex items-center gap-2 shrink-0">
+              <div class="flex flex-wrap items-center gap-2 sm:shrink-0">
                 <% if post.draft? %>
                   <span class="px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-200">
                     Rascunho

@@ -65,6 +65,19 @@
     </div>
   </div>
 
+  <% if !@post.newsletter_sent %>
+    <div class="p-2 flex items-center gap-3 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200 mb-6">
+      <%= form_with model: [:admin, @post], method: :patch, data: { turbo: true } do |f| %>
+        <label class="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
+          <%= f.check_box :newsletter_flag,
+              class: "rounded border-slate-300",
+              onchange: "this.form.submit()" %>
+          Incluir na newsletter
+        </label>
+      <% end %>
+    </div>
+  <% end %>
+
   <%# Ações %>
   <div class="flex flex-wrap items-center gap-3">
     <%= link_to "Editar post", edit_admin_post_path(@post),
