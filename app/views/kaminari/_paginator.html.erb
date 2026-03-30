@@ -1,0 +1,17 @@
+<nav class="flex items-center justify-center mt-6">
+  <ul class="flex items-center gap-1">
+    <%= paginator.render do %>
+      <%= prev_page_tag unless current_page.first? %>
+
+      <% paginator.each_page do |page| %>
+        <% if page.display_tag? %>
+          <%= page_tag page %>
+        <% elsif !page.was_truncated? %>
+          <%= gap_tag %>
+        <% end %>
+      <% end %>
+
+      <%= next_page_tag unless current_page.last? %>
+    <% end %>
+  </ul>
+</nav>

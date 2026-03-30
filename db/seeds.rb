@@ -9,7 +9,7 @@
 #   end
 
 admin = User.create!(
-  email_address: "admin@example.com",
+  email_address: "newnewtest@example.com",
   password: "admin",
   admin: true,
   password_confirmation: "admin",
@@ -20,16 +20,7 @@ admin = User.create!(
   specialty: "General Practitioner"
 )
 
-User.create!(
-  email_address: "nonadmin@example.com",
-  password: "1234",
-  admin: false,
-  password_confirmation: "1234",
-  name: "Non-Admin User",
-  bio: "This is a non-admin user.",
-)
-
-20.times do |i|
+30.times do |i|
   Post.create!(
     user: admin,
     title: "Post #{i + 1}: Dicas de Saúde e Bem-estar",
