@@ -16,7 +16,7 @@ class Admin::UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to edit_admin_user_path, flash: { success: "User updated." }
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

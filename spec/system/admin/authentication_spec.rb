@@ -2,7 +2,7 @@
 require "rails_helper"
 
 RSpec.describe "Admin authentication", type: :system do
-  let!(:admin) { User.create!(email_address: "admin@test.com", password: "password123!", admin: true) }
+  let(:admin) { create(:user, :admin, password: "password") }
 
   it "redirects unauthenticated users to the login page" do
     visit admin_root_path
@@ -12,7 +12,7 @@ RSpec.describe "Admin authentication", type: :system do
   it "permits login with valid credentials" do
     visit new_session_path
     fill_in "E-mail", with: admin.email_address
-    fill_in "Senha", with: "password123!"
+    fill_in "Senha", with: "password"
     click_button "Entrar"
     expect(page).to have_current_path(admin_root_path)
   end
@@ -28,7 +28,7 @@ RSpec.describe "Admin authentication", type: :system do
   it "permits logout" do
     visit new_session_path
     fill_in "E-mail", with: admin.email_address
-    fill_in "Senha", with: "password123!"
+    fill_in "Senha", with: "password"
     click_button "Entrar"
     link = find_link("Sair", href: session_path, visible: :all, match: :first)
     page.execute_script("arguments[0].click()", link)

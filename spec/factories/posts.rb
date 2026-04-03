@@ -3,7 +3,7 @@ FactoryBot.define do
     title { "Post Title" }
     subtitle { "Post Subtitle" }
     content { "Post Content" }
-    association :user
+    association :user, :admin
     newsletter_flag { false }
     newsletter_sent { false }
     draft { false }

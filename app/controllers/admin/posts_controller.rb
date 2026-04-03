@@ -26,7 +26,7 @@ class Admin::PostsController < ApplicationController
     if @post.save
       redirect_to admin_post_path(@post), success: "Post Criado."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -42,7 +42,7 @@ class Admin::PostsController < ApplicationController
     if @post.update(post_params.except(:remove_cover_image))
       redirect_to admin_post_path(@post), notice: "Post atualizado."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
