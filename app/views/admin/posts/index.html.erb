@@ -79,9 +79,9 @@
             <div class="flex items-center justify-between mt-2">
               <p class="text-xs text-slate-400">
                 <% if post.published_at.present? %>
-                  Publicado em <%= post.published_at.strftime("%d/%m/%Y") %>
+                  Publicado em <%= post.published_at.strftime("%d/%m/%Y") %> às <%= post.published_at.strftime("%H:%M") %>
                 <% else %>
-                  Criado em <%= post.created_at.strftime("%d/%m/%Y") %>
+                  Criado em <%= post.created_at.strftime("%d/%m/%Y") %> às <%= post.created_at.strftime("%H:%M") %>
                 <% end %>
               </p>
 

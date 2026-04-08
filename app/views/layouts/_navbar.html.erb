@@ -1,0 +1,48 @@
+<nav data-controller="navbar" class="bg-white border-b border-slate-200 px-4 md:px-8 py-4">
+  <div class="flex items-center justify-between">
+    <span class="font-medium text-slate-700">Doctor's Office</span>
+
+    <!-- Botão mobile -->
+    <button data-action="click->navbar#toggleMenu" id="menu-button" class="md:hidden text-slate-700">
+      ☰
+    </button>
+
+    <!-- Menu desktop -->
+    <% if Current.user&.admin? %>
+      <div class="hidden md:flex items-center gap-6 text-sm text-slate-600">
+        <%= link_to "Home Page", root_path, class: "hover:text-slate-900" %>
+        <%= link_to "Dashboard", admin_root_path, class: "hover:text-slate-900" %>
+        <%= link_to "Posts", admin_posts_path, class: "hover:text-slate-900" %>
+        <%= link_to "Consultórios", '#', class: "hover:text-slate-900" %>
+        <%= link_to "Agendamentos", '#', class: "hover:text-slate-900" %>
+        <%= link_to "Perfil", admin_user_path, class: "hover:text-slate-900" %>
+        <%= link_to "Sair", session_path, data: { turbo_method: :delete }, class: "hover:text-red-900 text-red-600" %>
+      </div>
+    <% else %>
+      <div class="hidden md:flex items-center gap-6 text-sm text-slate-600">
+        <%= link_to "Inicio", root_path, class: "hover:text-slate-900" %>
+        <%= link_to "Posts", '#', class: "hover:text-slate-900" %>
+        <%= link_to "Agendamentos", '#', class: "hover:text-slate-900" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Menu mobile -->
+  <% if Current.user&.admin?  %>
+    <div data-navbar-target="menu" class="hidden md:hidden flex flex-col items-end mt-4 gap-3 text-sm text-slate-600 md:hidden text-right">
+      <%= link_to "Home Page", root_path, class: "block hover:text-slate-900" %>
+      <%= link_to "Dashboard", admin_root_path, class: "block hover:text-slate-900" %>
+      <%= link_to "Posts", admin_posts_path, class: "block hover:text-slate-900" %>
+      <%= link_to "Consultórios", '#', class: "block hover:text-slate-900" %>
+      <%= link_to "Agendamentos", '#', class: "block hover:text-slate-900" %>
+      <%= link_to "Perfil", admin_user_path, class: "block hover:text-slate-900" %>
+      <%= link_to "Sair", session_path, data: { turbo_method: :delete }, class: "block hover:text-red-900 text-red-600" %>
+    </div>
+  <% else %>
+    <div data-navbar-target="menu" class="hidden md:hidden flex flex-col items-end mt-4 gap-3 text-sm text-slate-600 md:hidden text-right">
+      <%= link_to "Início", root_path, class: "block hover:text-slate-900" %>
+      <%= link_to "Posts", '#', class: "block hover:text-slate-900" %>
+      <%= link_to "Agendamentos", '#', class: "block hover:text-slate-900" %>
+    </div>
+  <% end %>
+</nav>
