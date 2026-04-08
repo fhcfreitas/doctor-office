@@ -1,4 +1,95 @@
-<div class=space-y-12>
-  <h1>Home</h1>
-  <p>Welcome to the Doctor office App!</p>
+<div class="space-y-0">
+  <!-- Hero Section com Background Image -->
+  <section class="relative -mx-8 -mt-8 h-[500px] md:h-[600px] bg-cover bg-center flex items-center justify-center"
+           style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(<%= asset_path('consultorio.png') %>);">
+    <div class="text-center text-white px-4 max-w-4xl">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">
+        Bem-vindo ao Doctor's Office
+      </h1>
+      <p class="text-lg md:text-2xl text-slate-200">
+        Cuidando da sua saúde com excelência e dedicação
+      </p>
+    </div>
+  </section>
+
+  <!-- Posts Section -->
+  <section class="py-16 px-4 md:px-8 max-w-7xl mx-auto">
+    <div class="mb-12 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-3">
+        Últimas Publicações
+      </h2>
+      <p class="text-slate-600">
+        Confira nossos artigos mais recentes sobre saúde e bem-estar
+      </p>
+    </div>
+
+    <% if @posts.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <% @posts.each do |post| %>
+          <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <% if post.cover_image.attached? %>
+              <%= image_tag post.cover_image, class: "w-full h-48 object-cover" %>
+            <% else %>
+              <div class="w-full h-48 bg-gradient-to-br from-blue-400 to-blue-600"></div>
+            <% end %>
+
+            <div class="p-6">
+              <h3 class="text-xl font-semibold text-slate-800 mb-2 line-clamp-2">
+                <%= post.title %>
+              </h3>
+
+              <p class="text-slate-600 text-sm mb-4 line-clamp-3">
+                <%= post.content&.truncate(120) %>
+              </p>
+
+              <div class="flex items-center justify-between text-sm text-slate-500">
+                <span><%= post.created_at.strftime("%d/%m/%Y") %></span>
+                <%= link_to "Ler mais →", '#', class: "text-blue-600 hover:text-blue-800 font-medium" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="text-center">
+        <%= link_to "Ver Todos os Posts", '#', class: "inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors" %>
+      </div>
+    <% else %>
+      <div class="text-center py-12 bg-slate-100 rounded-lg">
+        <p class="text-slate-600 mb-4">Nenhum post publicado ainda.</p>
+        <% if Current.user&.admin? %>
+          <%= link_to "Criar Primeiro Post", new_admin_post_path, class: "text-blue-600 hover:text-blue-800 font-medium" %>
+        <% end %>
+      </div>
+    <% end %>
+  </section>
+
+  <!-- Footer -->
+  <footer class="-mx-8 bg-slate-900 text-white py-12 px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Coluna 1: Contato -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contato</h3>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li>📞 (21) 9xxxx-xxxx</li>
+            <li>📧 teste@doctorsoffice.com</li>
+            <li>📍 Rio de Janeiro, RJ</li>
+          </ul>
+        </div>
+
+        <!-- Coluna 2: Sobre -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Doctor's Office</h3>
+          <p class="text-slate-400 text-sm">
+            Cuidando da sua saúde com profissionalismo e dedicação.
+          </p>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-800 pt-8 text-center text-sm text-slate-400">
+        <p>&copy; <%= Time.current.year %> Doctor's Office. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
 </div>
