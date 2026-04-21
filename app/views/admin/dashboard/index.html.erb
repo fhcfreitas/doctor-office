@@ -26,20 +26,26 @@
       </div>
 
      <div class="grid grid-cols-3 gap-2 md:gap-3">
-        <div class="bg-slate-50 border border-slate-100 rounded-xl px-2 py-2 md:px-4 md:py-3 text-center">
-          <p class="text-lg md:text-2xl font-semibold text-slate-800"><%= @posts_count %></p>
-          <p class="text-[10px] md:text-xs text-slate-400 mt-0.5">Total</p>
-        </div>
+       <%= link_to admin_posts_path do %>
+          <div class="bg-slate-50 border border-slate-100 rounded-xl px-2 py-2 md:px-4 md:py-3 text-center hover:bg-slate-100 transition">
+            <p class="text-lg md:text-2xl font-semibold text-slate-800"><%= @posts_count %></p>
+            <p class="text-[10px] md:text-xs text-slate-400 mt-0.5">Total</p>
+          </div>
+        <% end %>
 
-        <div class="bg-green-50 border border-green-100 rounded-xl px-2 py-2 md:px-4 md:py-3 text-center">
-          <p class="text-lg md:text-2xl font-semibold text-green-700"><%= @published_posts_count %></p>
-          <p class="text-[10px] md:text-xs text-green-500 mt-0.5">Publicados</p>
-        </div>
+        <%= link_to admin_posts_path(filter: "published") do %>
+          <div class="bg-green-50 border border-green-100 rounded-xl px-2 py-2 md:px-4 md:py-3 text-center">
+            <p class="text-lg md:text-2xl font-semibold text-green-700"><%= @published_posts_count %></p>
+            <p class="text-[10px] md:text-xs text-green-500 mt-0.5">Publicados</p>
+          </div>
+        <% end %>
 
-        <div class="bg-amber-50 border border-amber-100 rounded-xl px-2 py-2 md:px-4 md:py-3 text-center">
-          <p class="text-lg md:text-2xl font-semibold text-amber-700"><%= @draft_posts_count %></p>
-          <p class="text-[10px] md:text-xs text-amber-500 mt-0.5">Rascunhos</p>
-        </div>
+        <%= link_to admin_posts_path(filter: "draft") do %>
+          <div class="bg-amber-50 border border-amber-100 rounded-xl px-2 py-2 md:px-4 md:py-3 text-center">
+            <p class="text-lg md:text-2xl font-semibold text-amber-700"><%= @draft_posts_count %></p>
+            <p class="text-[10px] md:text-xs text-amber-500 mt-0.5">Rascunhos</p>
+          </div>
+        <% end %>
       </div>
 
       <div class="flex flex-col sm:flex-row gap-2 pt-2 border-t border-slate-100">
