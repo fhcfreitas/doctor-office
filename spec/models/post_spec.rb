@@ -40,4 +40,19 @@ RSpec.describe Post, type: :model do
       expect(Post.drafted).not_to include(published_post)
     end
   end
+
+  describe "callbacks" do
+    it "sets published_at when publishing a post" do
+      post = create(:post, draft: true, published_at: nil)
+      post.publish!
+      expect(post.published_at).not_to be_nil
+    end
+
+    it "does not change published_at when updating a published post" do
+      post = create(:post, :published)
+      original_published_at = post.published_at
+      post.update(title: "Updated Title")
+      expect(post.published_at).to eq(original_published_at)
+    end
+  end
 end

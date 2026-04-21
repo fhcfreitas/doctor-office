@@ -39,7 +39,10 @@ class Admin::PostsController < ApplicationController
   def update
     @post.cover_image.purge if params.dig(:post, :remove_cover_image) == "1"
 
-    if @post.update(post_params.except(:remove_cover_image))
+    safe_params = post_params.except(:remove_cover_image)
+    safe_params = safe_params.except(:draft) if @post.published?
+
+    if @post.update(safe_params)
       redirect_to admin_post_path(@post), notice: "Post atualizado."
     else
       render :edit, status: :unprocessable_content

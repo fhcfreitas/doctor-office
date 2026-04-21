@@ -51,10 +51,12 @@
       Incluir na newsletter
     </label>
 
-    <label class="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
-      <%= f.check_box :draft, class: "rounded border-slate-300" %>
-      Salvar como rascunho
-    </label>
+    <% unless @post.published? %>
+      <label class="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
+        <%= f.check_box :draft, class: "rounded border-slate-300" %>
+        Salvar como rascunho
+      </label>
+    <% end %>
   </div>
 
   <div class="flex gap-3">
