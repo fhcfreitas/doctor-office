@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
+  resources :posts, only: [ :index, :show ]
 
   namespace :admin do
     root "dashboard#index"
