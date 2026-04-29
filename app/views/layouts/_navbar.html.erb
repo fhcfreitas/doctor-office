@@ -8,41 +8,43 @@
     </button>
 
     <!-- Menu desktop -->
-    <% if Current.user&.admin? %>
-      <div class="hidden md:flex items-center gap-6 text-sm text-slate-600">
+    <div class="hidden md:flex items-center gap-6 text-sm text-slate-600">
+      <% if Current.user&.admin? %>
+
         <%= link_to "Home Page", root_path, class: "hover:text-slate-900" %>
         <%= link_to "Dashboard", admin_root_path, class: "hover:text-slate-900" %>
         <%= link_to "Posts", admin_posts_path, class: "hover:text-slate-900" %>
-        <%= link_to "Consultórios", '#', class: "hover:text-slate-900" %>
         <%= link_to "Agendamentos", '#', class: "hover:text-slate-900" %>
         <%= link_to "Perfil", admin_user_path, class: "hover:text-slate-900" %>
         <%= link_to "Sair", session_path, data: { turbo_method: :delete }, class: "hover:text-red-900 text-red-600" %>
-      </div>
-    <% else %>
-      <div class="hidden md:flex items-center gap-6 text-sm text-slate-600">
+
+      <% else %>
+
         <%= link_to "Inicio", root_path, class: "hover:text-slate-900" %>
         <%= link_to "Posts", '#', class: "hover:text-slate-900" %>
         <%= link_to "Agendamentos", '#', class: "hover:text-slate-900" %>
-      </div>
-    <% end %>
+
+      <% end %>
+    </div>
   </div>
 
   <!-- Menu mobile -->
-  <% if Current.user&.admin?  %>
-    <div data-navbar-target="menu" class="hidden md:hidden flex flex-col items-end mt-4 gap-3 text-sm text-slate-600 md:hidden text-right">
+  <div data-navbar-target="menu" class="hidden md:hidden flex flex-col items-end mt-4 gap-3 text-sm text-slate-600 md:hidden text-right">
+    <% if Current.user&.admin? %>
+
       <%= link_to "Home Page", root_path, class: "block hover:text-slate-900" %>
       <%= link_to "Dashboard", admin_root_path, class: "block hover:text-slate-900" %>
       <%= link_to "Posts", admin_posts_path, class: "block hover:text-slate-900" %>
-      <%= link_to "Consultórios", '#', class: "block hover:text-slate-900" %>
       <%= link_to "Agendamentos", '#', class: "block hover:text-slate-900" %>
       <%= link_to "Perfil", admin_user_path, class: "block hover:text-slate-900" %>
       <%= link_to "Sair", session_path, data: { turbo_method: :delete }, class: "block hover:text-red-900 text-red-600" %>
-    </div>
-  <% else %>
-    <div data-navbar-target="menu" class="hidden md:hidden flex flex-col items-end mt-4 gap-3 text-sm text-slate-600 md:hidden text-right">
+
+    <% else %>
+
       <%= link_to "Início", root_path, class: "block hover:text-slate-900" %>
       <%= link_to "Posts", '#', class: "block hover:text-slate-900" %>
       <%= link_to "Agendamentos", '#', class: "block hover:text-slate-900" %>
-    </div>
-  <% end %>
+
+    <% end %>
+  </div>
 </nav>
