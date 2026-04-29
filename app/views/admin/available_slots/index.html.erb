@@ -1,0 +1,20 @@
+<div class="max-w-5xl mx-auto px-4 py-8">
+
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-xl font-semibold text-slate-800">Gerenciar agenda</h1>
+      <p class="text-sm text-slate-400 mt-0.5">Libere horários para consultas</p>
+    </div>
+    <%= link_to admin_root_path, class: "text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1" do %>
+      ← Voltar ao painel
+    <% end %>
+  </div>
+
+  <%= turbo_frame_tag "calendar" do %>
+    <%= render "calendar", week_dates: @week_dates, slots: @slots, week_offset: @week_offset %>
+  <% end %>
+
+  <%# Modal container — turbo frame vazio, preenchido pelo new/edit %>
+  <%= turbo_frame_tag "modal" %>
+
+</div>

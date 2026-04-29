@@ -1,0 +1,87 @@
+<% hours = %w[08:00 09:00 10:00 11:00 14:00 15:00 16:00 17:00] %>
+<% days  = %w[Seg Ter Qua Qui Sex] %>
+
+<div id="calendar" class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+
+  <%# Header de navegação %>
+  <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+    <div class="flex items-center gap-3">
+      <%= link_to admin_available_slots_path(week_offset: week_offset - 1),
+            data: { turbo_frame: "calendar" },
+            class: "p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50" do %>
+        ←
+      <% end %>
+      <span class="text-sm font-medium text-slate-700">
+        <%= week_dates.first.strftime("%-d %b") %> – <%= week_dates.last.strftime("%-d %b, %Y") %>
+      </span>
+      <%= link_to admin_available_slots_path(week_offset: week_offset + 1),
+            data: { turbo_frame: "calendar" },
+            class: "p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50" do %>
+        →
+      <% end %>
+    </div>
+
+    <%= link_to new_admin_available_slot_path(week_offset: week_offset),
+          data: { turbo_frame: "modal" },
+          class: "text-sm font-medium bg-slate-800 text-white rounded-lg py-2 px-4 hover:bg-slate-700 transition-colors" do %>
+      + Novo slot
+    <% end %>
+  </div>
+
+  <%# Grid do calendário %>
+  <div class="overflow-x-auto">
+    <div class="grid min-w-[600px]" style="grid-template-columns: 64px repeat(5, 1fr);">
+
+      <%# Cabeçalho dos dias %>
+      <div class="border-b border-slate-100"></div>
+      <% week_dates.each_with_index do |date, i| %>
+        <div class="border-b border-l border-slate-100 py-3 text-center">
+          <p class="text-[10px] uppercase tracking-wide text-slate-400"><%= days[i] %></p>
+          <p class="text-lg font-semibold <%= date == Date.current ? 'text-blue-600' : 'text-slate-700' %>">
+            <%= date.day %>
+          </p>
+        </div>
+      <% end %>
+
+      <%# Linhas de horário %>
+      <% hours.each do |hour| %>
+        <div class="border-b border-slate-50 flex items-center justify-center h-14">
+          <span class="text-[11px] text-slate-400"><%= hour %></span>
+        </div>
+
+        <% week_dates.each do |date| %>
+          <% slot_start = Time.zone.parse("#{date} #{hour}") %>
+          <% slot = slots.find { |s| s.starts_at == slot_start } %>
+
+          <div class="border-b border-l border-slate-50 h-14 p-1 group relative">
+            <% if slot %>
+              <%= render "slot", slot: slot, week_offset: week_offset %>
+            <% else %>
+              <%# Célula vazia — clicável para criar %>
+              <%= link_to new_admin_available_slot_path(date: date, hour: hour, week_offset: week_offset),
+                    data: { turbo_frame: "modal" },
+                    class: "w-full h-full flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 border border-dashed border-slate-300 text-slate-400 text-sm transition-opacity" do %>
+                +
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+
+    </div>
+  </div>
+
+  <%# Legenda %>
+  <div class="flex gap-4 px-6 py-3 border-t border-slate-100">
+    <div class="flex items-center gap-1.5 text-xs text-slate-500">
+      <span class="w-2.5 h-2.5 rounded-full bg-green-400 inline-block"></span> Disponível
+    </div>
+    <div class="flex items-center gap-1.5 text-xs text-slate-500">
+      <span class="w-2.5 h-2.5 rounded-full bg-blue-400 inline-block"></span> Agendado
+    </div>
+    <div class="flex items-center gap-1.5 text-xs text-slate-500">
+      <span class="w-2.5 h-2.5 rounded-full bg-slate-300 inline-block"></span> Cancelado
+    </div>
+  </div>
+
+</div>

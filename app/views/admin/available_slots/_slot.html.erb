@@ -1,0 +1,12 @@
+<% colors = { "available" => "bg-green-50 border-green-200 text-green-700",
+              "booked"    => "bg-blue-50 border-blue-200 text-blue-700",
+              "cancelled" => "bg-slate-50 border-slate-200 text-slate-400 line-through" } %>
+
+<%= link_to edit_admin_available_slot_path(slot, week_offset: week_offset),
+      data: { turbo_frame: "modal" },
+      class: "flex flex-col justify-center h-full w-full rounded-lg border px-2 py-1 text-[11px] font-medium transition-opacity hover:opacity-80 #{colors[slot.status]}" do %>
+  <span><%= slot.status.humanize %></span>
+  <span class="font-normal opacity-70">
+    <%= slot.starts_at.strftime("%H:%M") %>–<%= slot.ends_at.strftime("%H:%M") %>
+  </span>
+<% end %>

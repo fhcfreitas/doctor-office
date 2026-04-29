@@ -6,6 +6,13 @@ Rails.application.routes.draw do
   namespace :admin do
     root "dashboard#index"
     resource :user, only: %i[show edit update destroy]
+
+    resources :available_slots do
+      collection do
+        get :calendar
+      end
+    end
+
     resources :posts do
       member do
         patch :publish

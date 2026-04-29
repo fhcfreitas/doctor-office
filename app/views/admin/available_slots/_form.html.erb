@@ -1,0 +1,39 @@
+<%= form_with model: [:admin, slot], class: "space-y-4" do |f| %>
+  <% if slot.errors.any? %>
+    <div class="bg-red-50 border border-red-100 rounded-lg p-3 text-sm text-red-600">
+      <%= slot.errors.full_messages.to_sentence %>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :week_offset, value: week_offset %>
+
+  <div>
+    <%= f.label :starts_at, "Início", class: "block text-sm text-slate-500 mb-1" %>
+    <%= f.datetime_local_field :starts_at, class: "w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-300" %>
+  </div>
+
+  <div>
+    <%= f.label :ends_at, "Fim", class: "block text-sm text-slate-500 mb-1" %>
+    <%= f.datetime_local_field :ends_at, class: "w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-300" %>
+  </div>
+
+  <% unless slot.booked? %>
+    <div>
+      <%= f.label :status, "Status", class: "block text-sm text-slate-500 mb-1" %>
+      <%= f.select :status,
+            AvailableSlot.statuses.except("booked").keys.map { |s| [s.humanize, s] },
+            {},
+            class: "w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700" %>
+    </div>
+  <% end %>
+
+  <div class="flex gap-2 pt-2">
+    <button type="button"
+            onclick="document.getElementById('modal').innerHTML = ''"
+            class="flex-1 text-sm border border-slate-200 text-slate-600 rounded-lg py-2 hover:bg-slate-50 transition-colors">
+      Cancelar
+    </button>
+    <%= f.submit slot.persisted? ? "Salvar" : "Criar slot",
+          class: "flex-1 text-sm bg-slate-800 text-white rounded-lg py-2 hover:bg-slate-700 transition-colors cursor-pointer" %>
+  </div>
+<% end %>
