@@ -6,13 +6,18 @@ class Admin::PostsController < ApplicationController
 
   def index
     @filter = params[:filter]
+    @search = params[:q]
 
     @posts = case @filter
     when "published" then Post.published
-    when "draft" then Post.drafted
+    when "draft"     then Post.drafted
     when "newsletter" then Post.where(newsletter_flag: true)
     else Post.all
-    end.order(updated_at: :desc).includes(:user).page(params[:page]).per(10)
+    end
+
+    @posts = @posts.where("title LIKE ? OR subtitle LIKE ?", "%#{@search}%", "%#{@search}%") if @search.present?
+
+    @posts = @posts.order(updated_at: :desc).includes(:user).page(params[:page]).per(10)
   end
 
   def new

@@ -1,1 +1,48 @@
-<%= render 'shared/post_cards_section', posts: @posts, context: :index %>
+<section class="py-16 px-4 md:px-8 max-w-7xl mx-auto">
+  <div class="mb-12 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-3">
+      Todos os Posts
+    </h2>
+    <p class="text-slate-600">
+      Confira nossos artigos mais recentes sobre saúde e bem-estar
+    </p>
+
+    <%= form_with url: posts_path, method: :get,
+          data: { turbo_frame: "posts_list" } do |f| %>
+      <div class="relative mt-6">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <svg class="h-4 w-4 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+          </svg>
+        </div>
+        <%= f.search_field :q, value: params[:q],
+              placeholder: "Buscar por título ou subtítulo...",
+              oninput: "this.form.requestSubmit()",
+              class: "w-full rounded-lg border border-slate-200 bg-white py-2 pl-9 pr-4 text-sm text-slate-700 placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-0" %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= turbo_frame_tag "posts_list" do %>
+    <% if @posts.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <% @posts.each do |post| %>
+          <%= render 'shared/post_card', post: post %>
+        <% end %>
+      </div>
+      <div class="mt-4">
+        <%= paginate @posts %>
+      </div>
+    <% else %>
+      <div class="text-center py-12 bg-slate-100 rounded-lg">
+        <p class="text-slate-600 mb-4">
+          <% if params[:q].present? %>
+            Nenhum post encontrado para "<%= params[:q] %>"
+          <% else %>
+            Nenhum post publicado ainda.
+          <% end %>
+        </p>
+      </div>
+    <% end %>
+  <% end %>
+</section>

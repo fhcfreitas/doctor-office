@@ -1,5 +1,25 @@
 <div class="space-y-0">
   <%= render 'shared/hero' %>
 
-  <%= render 'shared/post_cards_section', posts: @posts, context: :home %>
+  <section class="py-16 px-4 md:px-8 max-w-7xl mx-auto">
+    <div class="mb-12 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-3">
+        Últimas Publicações
+      </h2>
+      <p class="text-slate-600">
+        Confira nossos artigos mais recentes sobre saúde e bem-estar
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <% @posts.each do |post| %>
+        <%= render 'shared/post_card', post: post %>
+      <% end %>
+    </div>
+
+    <div class="text-center">
+      <%= link_to "Ver Todos os Posts", posts_path,
+          class: "inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors" %>
+    </div>
+  </section>
 </div>

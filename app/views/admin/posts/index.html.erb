@@ -7,6 +7,7 @@
         class: "bg-slate-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" %>
   </div>
 
+
   <%# Filtros %>
   <div class="flex items-center gap-2 mb-6 overflow-x-auto whitespace-nowrap">
     <%= link_to "Todos", admin_posts_path,
@@ -19,102 +20,121 @@
         class: "px-3 py-1.5 rounded-lg text-sm #{params[:filter] == 'newsletter' ? 'bg-slate-800 text-white' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}" %>
   </div>
 
+  <%# Search %>
+  <%= form_with url: admin_posts_path, method: :get,
+        data: { turbo_frame: "posts_list" } do |f| %>
+    <%= hidden_field_tag :filter, @filter %>
+    <div class="relative mb-6">
+      <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+        <svg class="h-4 w-4 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        </svg>
+      </div>
+      <%= f.search_field :q, value: params[:q],
+            placeholder: "Buscar por título ou subtítulo...",
+            oninput: "this.form.requestSubmit()",
+            class: "w-full rounded-lg border border-slate-200 bg-white py-2 pl-9 pr-4 text-sm text-slate-700 placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-0" %>
+    </div>
+  <% end %>
+
   <%# Lista %>
-  <% if @posts.any? %>
-    <div class="bg-white rounded-2xl border border-slate-200 divide-y divide-slate-100">
-      <% @posts.each do |post| %>
-        <div class="flex items-start gap-4 p-4 hover:bg-slate-50 transition-colors">
+  <%= turbo_frame_tag "posts_list" do %>
+    <% if @posts.any? %>
+      <div class="bg-white rounded-2xl border border-slate-200 divide-y divide-slate-100">
+        <% @posts.each do |post| %>
+          <div class="flex items-start gap-4 p-4 hover:bg-slate-50 transition-colors">
 
-          <%# Thumbnail %>
-          <div class="shrink-0 w-20 h-14 rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
-            <% if post.cover_image.attached? %>
-              <%= image_tag post.cover_image.variant(resize_to_fill: [80, 56]),
-                  alt: post.title,
-                  class: "w-full h-full object-cover" %>
-            <% else %>
-              <div class="w-full h-full flex items-center justify-center text-slate-300 text-xs">
-                sem imagem
-              </div>
-            <% end %>
-          </div>
+            <%# Thumbnail %>
+            <div class="shrink-0 w-20 h-14 rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
+              <% if post.cover_image.attached? %>
+                <%= image_tag post.cover_image.variant(resize_to_fill: [80, 56]),
+                    alt: post.title,
+                    class: "w-full h-full object-cover" %>
+              <% else %>
+                <div class="w-full h-full flex items-center justify-center text-slate-300 text-xs">
+                  sem imagem
+                </div>
+              <% end %>
+            </div>
 
-          <%# Conteúdo %>
-          <div class="flex-1 min-w-0">
-            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
-              <div class="min-w-0">
-                <h2 class="text-sm font-medium text-slate-800 truncate">
-                  <%= link_to post.title, admin_post_path(post),
-                      class: "hover:underline" %>
-                </h2>
-                <% if post.subtitle.present? %>
-                  <p class="text-xs text-slate-400 mt-0.5 truncate"><%= post.subtitle %></p>
-                <% end %>
-              </div>
+            <%# Conteúdo %>
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
+                <div class="min-w-0">
+                  <h2 class="text-sm font-medium text-slate-800 truncate">
+                    <%= link_to post.title, admin_post_path(post),
+                        class: "hover:underline" %>
+                  </h2>
+                  <% if post.subtitle.present? %>
+                    <p class="text-xs text-slate-400 mt-0.5 truncate"><%= post.subtitle %></p>
+                  <% end %>
+                </div>
 
-              <div class="flex flex-wrap items-center gap-2 sm:shrink-0">
-                <% if post.draft? %>
-                  <span class="px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-200">
-                    Rascunho
-                  </span>
-                <% else %>
-                  <span class="px-2 py-0.5 rounded-full text-xs bg-green-50 text-green-700 border border-green-200">
-                    Publicado
-                  </span>
-                <% end %>
-
-                <% if post.newsletter_flag? %>
-                  <% if post.newsletter_sent? %>
-                    <span class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-400 border border-slate-200">
-                      Newsletter ✓
+                <div class="flex flex-wrap items-center gap-2 sm:shrink-0">
+                  <% if post.draft? %>
+                    <span class="px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-200">
+                      Rascunho
                     </span>
                   <% else %>
-                    <span class="px-2 py-0.5 rounded-full text-xs bg-blue-50 text-blue-600 border border-blue-200">
-                      Newsletter
+                    <span class="px-2 py-0.5 rounded-full text-xs bg-green-50 text-green-700 border border-green-200">
+                      Publicado
                     </span>
                   <% end %>
-                <% end %>
+
+                  <% if post.newsletter_flag? %>
+                    <% if post.newsletter_sent? %>
+                      <span class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-400 border border-slate-200">
+                        Newsletter ✓
+                      </span>
+                    <% else %>
+                      <span class="px-2 py-0.5 rounded-full text-xs bg-blue-50 text-blue-600 border border-blue-200">
+                        Newsletter
+                      </span>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between mt-2">
+                <p class="text-xs text-slate-400">
+                  <% if post.published_at.present? %>
+                    Publicado em <%= post.published_at.strftime("%d/%m/%Y") %> às <%= post.published_at.strftime("%H:%M") %>
+                  <% else %>
+                    Criado em <%= post.created_at.strftime("%d/%m/%Y") %> às <%= post.created_at.strftime("%H:%M") %>
+                  <% end %>
+                </p>
+
+                <div class="flex items-center gap-3">
+                  <%= link_to "Editar", edit_admin_post_path(post),
+                      class: "text-xs text-slate-500 hover:text-slate-800" %>
+
+                  <% if post.draft? %>
+                    <%= button_to "Publicar", publish_admin_post_path(post), method: :patch,
+                        class: "text-xs text-green-600 hover:text-green-800 bg-transparent border-0 cursor-pointer p-0" %>
+                  <% end %>
+
+                  <%= button_to "Excluir", admin_post_path(post), method: :delete,
+                    data: { turbo_confirm: "Excluir #{post.title}?" },
+                    class: "text-xs text-red-400 hover:text-red-600 bg-transparent border-0 cursor-pointer p-0" %>
+                </div>
               </div>
             </div>
 
-            <div class="flex items-center justify-between mt-2">
-              <p class="text-xs text-slate-400">
-                <% if post.published_at.present? %>
-                  Publicado em <%= post.published_at.strftime("%d/%m/%Y") %> às <%= post.published_at.strftime("%H:%M") %>
-                <% else %>
-                  Criado em <%= post.created_at.strftime("%d/%m/%Y") %> às <%= post.created_at.strftime("%H:%M") %>
-                <% end %>
-              </p>
-
-              <div class="flex items-center gap-3">
-                <%= link_to "Editar", edit_admin_post_path(post),
-                    class: "text-xs text-slate-500 hover:text-slate-800" %>
-
-                <% if post.draft? %>
-                  <%= button_to "Publicar", publish_admin_post_path(post), method: :patch,
-                      class: "text-xs text-green-600 hover:text-green-800 bg-transparent border-0 cursor-pointer p-0" %>
-                <% end %>
-
-                <%= button_to "Excluir", admin_post_path(post), method: :delete,
-                  data: { turbo_confirm: "Excluir #{post.title}?" },
-                  class: "text-xs text-red-400 hover:text-red-600 bg-transparent border-0 cursor-pointer p-0" %>
-              </div>
-            </div>
           </div>
-
-        </div>
-      <% end %>
-    </div>
-    <div class="mt-4">
-      <%= paginate @posts %>
-    </div>
-  <% else %>
-    <div class="bg-white rounded-2xl border border-slate-200 p-16 text-center">
-      <p class="text-slate-400 text-sm mb-4">
-        <%= empty_posts_message(@filter) %>
-      </p>
-      <%= link_to "Criar primeiro post", new_admin_post_path,
-          class: "text-sm bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" %>
-    </div>
+        <% end %>
+      </div>
+      <div class="mt-4">
+        <%= paginate @posts %>
+      </div>
+    <% else %>
+      <div class="bg-white rounded-2xl border border-slate-200 p-16 text-center">
+        <p class="text-slate-400 text-sm mb-4">
+          <%= empty_posts_message(@filter) %>
+        </p>
+        <%= link_to "Criar primeiro post", new_admin_post_path,
+            class: "text-sm bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" %>
+      </div>
+    <% end %>
   <% end %>
 
 </div>
